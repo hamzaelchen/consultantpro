@@ -1,22 +1,25 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Layout from '@/components/layout/Layout'
-import Dashboard from '@/pages/Dashboard'
-import Consultants from '@/pages/Consultants'
-import Missions from '@/pages/Missions'
-import Login from '@/pages/Login'
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Landing from "./pages/Landing";
+import ConsultantList from "./pages/ConsultantList";
+import ConsultantForm from "./pages/ConsultantForm";
+import ConsultantProfile from "./pages/ConsultantProfile";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="consultants" element={<Consultants />} />
-        <Route path="missions" element={<Missions />} />
-      </Route>
-    </Routes>
-  )
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/consultants" element={<ConsultantList />} />
+          <Route path="/consultants/:id" element={<ConsultantProfile />} />
+          <Route path="/add" element={<ConsultantForm />} />
+          <Route path="/consultants/:id/edit" element={<ConsultantForm />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
