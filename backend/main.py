@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
 from routers import consultants
 
-# ── Création automatique des tables au démarrage ──
+# Creation automatique des tables au demarrage
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -15,7 +15,7 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# ── CORS ouvert pour toutes les origines ──
+# CORS ouvert pour toutes les origines
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,10 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Inclusion du router ──
+# Inclusion du router
 app.include_router(consultants.router)
 
 
 @app.get("/", tags=["Health"])
 def root():
-    return {"status": "ok", "message": "ConsultantPro API opérationnelle"}
+    return {"status": "ok", "message": "ConsultantPro API operationnelle"}
