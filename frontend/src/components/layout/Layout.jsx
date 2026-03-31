@@ -9,14 +9,17 @@ export default function Layout() {
   if (!token) return <Navigate to="/login" replace />
 
   return (
-    <div className={styles.shell}>
-      <Sidebar />
-      <div className={styles.main}>
-        <Navbar />
-        <main className={styles.content}>
-          <Outlet />
-        </main>
+    <>
+      <div className="global-bg" />
+      <div className={styles.shell}>
+        <Sidebar />
+        <div className={styles.main}>
+          <Navbar />
+          <main className={styles.content}>
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -71,12 +71,12 @@ export default function ConsultantForm() {
   if (loading && isEditing) return <div>Chargement...</div>;
 
   return (
-    <div className="form-container">
-      <h2>{isEditing ? "Modifier le consultant" : "Ajouter un consultant"}</h2>
-      {error && <div style={{ color: "var(--danger)", marginBottom: "1rem" }}>{error}</div>}
+        <div className="glass-card slideUp" style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <h2 style={{ marginBottom: "1.5rem", color: "var(--text-dark)" }}>{isEditing ? "Modifier le consultant" : "Ajouter un consultant"}</h2>
+      {error && <div style={{ color: "var(--danger)", marginBottom: "1rem", padding: "0.5rem", background: "rgba(239,68,68,0.1)", borderRadius: "8px" }}>{error}</div>}
       
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group" style={{ marginBottom: "1.2rem" }}>
           <label htmlFor="prenom">Prénom *</label>
           <input 
             type="text" 
@@ -89,7 +89,7 @@ export default function ConsultantForm() {
           />
         </div>
         
-        <div className="form-group">
+        <div className="form-group" style={{ marginBottom: "1.2rem" }}>
           <label htmlFor="nom">Nom *</label>
           <input 
             type="text" 
@@ -102,7 +102,7 @@ export default function ConsultantForm() {
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{ marginBottom: "1.2rem" }}>
           <label htmlFor="email">Email *</label>
           <input 
             type="email" 
@@ -115,7 +115,7 @@ export default function ConsultantForm() {
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{ marginBottom: "1.2rem" }}>
           <label htmlFor="telephone">Téléphone</label>
           <input 
             type="text" 
@@ -127,7 +127,7 @@ export default function ConsultantForm() {
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{ marginBottom: "1.2rem" }}>
           <label htmlFor="specialite">Spécialité *</label>
           <input 
             type="text" 
@@ -140,23 +140,24 @@ export default function ConsultantForm() {
           />
         </div>
 
-        <div className="form-group form-check">
+        <div className="form-group form-check" style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "2rem" }}>
           <input 
             type="checkbox" 
             id="disponible" 
             name="disponible" 
             checked={formData.disponible} 
             onChange={handleChange} 
+            style={{ width: "auto" }}
           />
           <label htmlFor="disponible" style={{ marginBottom: 0 }}>Disponible pour de nouvelles missions</label>
         </div>
 
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Enregistrement..." : (isEditing ? "Enregistrer les modifications" : "Créer le consultant")}
-          </button>
-          <button type="button" className="btn btn-outline" onClick={() => navigate("/consultants")}>
+        <div className="form-actions" style={{ display: "flex", gap: "1rem" }}>
+          <button type="button" className="btn btn-outline" onClick={() => navigate("/consultants")} style={{ flex: 1 }}>
             Annuler
+          </button>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{ flex: 2 }}>
+            {loading ? "Enregistrement..." : (isEditing ? "Enregistrer les modifications" : "Créer le consultant")}
           </button>
         </div>
       </form>

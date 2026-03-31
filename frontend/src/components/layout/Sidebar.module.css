@@ -1,8 +1,10 @@
 .sidebar {
   width: 240px;
   min-height: 100vh;
-  background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
+  background: rgba(2, 6, 23, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   padding: 1.5rem 1rem;
@@ -19,7 +21,7 @@
 .logo {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -27,12 +29,13 @@
   font-size: 0.85rem;
   color: #fff;
   flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
 }
 
 .name {
   font-weight: 600;
   font-size: 1rem;
-  background: linear-gradient(135deg, #e2e8f0, var(--color-accent));
+  background: linear-gradient(135deg, #f8fafc, var(--accent-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -50,21 +53,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 0.75rem;
-  border-radius: var(--radius-sm);
-  color: var(--color-muted);
+  border-radius: 8px;
+  color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all var(--transition);
+  transition: all 0.3s ease;
 }
 
 .link:hover {
-  color: var(--color-text);
-  background: rgba(108,99,255,0.08);
+  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .link.active {
-  color: var(--color-primary);
-  background: rgba(108,99,255,0.15);
+  color: var(--text-dark);
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), transparent);
+  border-left: 3px solid var(--primary-color);
 }
 
 .logout {
@@ -72,17 +76,17 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 0.75rem;
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   background: transparent;
   border: none;
-  color: var(--color-muted);
+  color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 500;
   width: 100%;
-  transition: all var(--transition);
+  transition: all 0.3s ease;
 }
 
 .logout:hover {
-  color: var(--color-danger);
-  background: rgba(239,68,68,0.08);
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
 }

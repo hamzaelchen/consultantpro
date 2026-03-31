@@ -5,6 +5,13 @@ import { ArrowRight, Sparkles, Database, Users, TrendingUp, CheckCircle2 } from 
 export default function Landing() {
   return (
     <div className={styles.landingContainer}>
+      <div className={styles.animatedBg}>
+        <div className={styles.orb1}></div>
+        <div className={styles.orb2}></div>
+        <div className={styles.orb3}></div>
+        <div className={styles.gridOverlay}></div>
+      </div>
+      
       <section className={styles.hero}>
         <div className={styles.badge}>
           <Sparkles className={styles.badgeIcon} size={16} />

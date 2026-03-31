@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import { Plus, Search, Mail, Phone } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Search, Mail, Phone, Eye, Edit2, Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import api from '../api/api'
 import styles from './Consultants.module.css'
 
-const mockData = [
-  { id: 1, name: 'Amira Benali',   role: 'Cloud Architect',      email: 'amira@consultantpro.fr',   phone: '+33 6 01 02 03 04', status: 'Disponible',  avatar: 'AB' },
-  { id: 2, name: 'Karim Douhi',    role: 'Cybersecurity Expert', email: 'karim@consultantpro.fr',   phone: '+33 6 05 06 07 08', status: 'En mission',  avatar: 'KD' },
-  { id: 3, name: 'Léa Moreau',     role: 'Backend Developer',    email: 'lea@consultantpro.fr',     phone: '+33 6 09 10 11 12', status: 'Disponible',  avatar: 'LM' },
-  { id: 4, name: 'Yassir Tahir',   role: 'Data Engineer',        email: 'yassir@consultantpro.fr',  phone: '+33 6 13 14 15 16', status: 'En mission',  avatar: 'YT' },
-  { id: 5, name: 'Sophie Renard',  role: 'Scrum Master',         email: 'sophie@consultantpro.fr',  phone: '+33 6 17 18 19 20', status: 'Congé',       avatar: 'SR' },
-  { id: 6, name: 'Thomas Klein',   role: 'DevOps Engineer',      email: 'thomas@consultantpro.fr',  phone: '+33 6 21 22 23 24', status: 'Disponible',  avatar: 'TK' },
-]
-
-const statusClass = { 'Disponible': 'badge-success', 'En mission': 'badge-primary', 'Congé': 'badge-warning' }
-
 export default function Consultants() {
+  const [consultants, setConsultants] = useState([])
   const [search, setSearch] = useState('')
-  const filtered = mockData.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.role.toLowerCase().includes(search.toLowerCase())
-  )
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchConsultants()
+  }, [])
+
+  const fetchConsultants = async () => {
+    try {
+      setLoading(true)
+      const response = await api.get("/consultants/")
+      setConsultants(response.data)
+      setLoading(false)
+    } catch (err) {
+      setError("Erreur lors du chargement des consultants.")
+      setLoading(false)
+      console.error(err)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Voulez-vous vraiment supprimer ce consultant ?")) return
+    try {
+      await api.delete(`/consultants/${id}`)
+      setConsultants(consultants.filter(c => c.id !== id))
+    } catch (err) {
+      alert("Erreur lors de la suppression")
+      console.error(err)
+    }
+  }
+
+  const filtered = consultants.filter((c) => {
+    const fullName = `${c.prenom} ${c.nom}`.toLowerCase()
+    const spec = (c.specialite || '').toLowerCase()
+    const term = search.toLowerCase()
+    return fullName.includes(term) || spec.includes(term)
+  })
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} fadeIn`}>
       <div className={styles.topbar}>
         <div>
           <h1 className={styles.title}>Consultants</h1>
-          <p className={styles.sub}>{mockData.length} consultants enregistrés</p>
+          <p className={styles.sub}>
+            {loading ? "Chargement..." : `${consultants.length} consultants enregistrés`}
+          </p>
         </div>
-        <button id="add-consultant" className="btn btn-primary">
+        <Link to="/add" id="add-consultant" className="btn btn-primary">
           <Plus size={16} /> Ajouter
-        </button>
+        </Link>
       </div>
 
       <div className={styles.searchWrap}>
@@ -44,26 +71,62 @@ export default function Consultants() {
         />
       </div>
 
-      <div className={styles.grid}>
-        {filtered.map((c) => (
-          <div key={c.id} className={`card ${styles.card}`}>
-            <div className={styles.cardTop}>
-              <div className={styles.avatar}>{c.avatar}</div>
-              <span className={`badge ${statusClass[c.status]}`}>{c.status}</span>
-            </div>
-            <h3 className={styles.name}>{c.name}</h3>
-            <p className={styles.role}>{c.role}</p>
-            <div className={styles.contacts}>
-              <a href={`mailto:${c.email}`} className={styles.contact}>
-                <Mail size={13} /> {c.email}
-              </a>
-              <a href={`tel:${c.phone}`} className={styles.contact}>
-                <Phone size={13} /> {c.phone}
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+      {error && <div style={{ color: "var(--danger)", padding: "1rem 0" }}>{error}</div>}
+
+      {!loading && !error && consultants.length === 0 ? (
+        <div className="glass-card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
+          <h2 style={{ marginBottom: "1rem", color: "var(--text-dark)" }}>Aucun consultant pour le moment</h2>
+          <p style={{ color: "var(--text-light)", marginBottom: "2rem" }}>Commencez par ajouter votre premier consultant dans la base de données.</p>
+          <Link to="/add" className="btn btn-primary">
+            <Plus size={18} /> Ajouter un consultant
+          </Link>
+        </div>
+      ) : (
+        <div className={styles.grid}>
+          {filtered.map((c) => {
+            const avatarInitials = `${c.prenom?.[0] || ''}${c.nom?.[0] || ''}`.toUpperCase()
+            const statusLabel = c.disponible ? "Disponible" : "En mission"
+            const statusClass = c.disponible ? "badge-success" : "badge-primary"
+
+            return (
+              <div key={c.id} className={`card ${styles.card}`}>
+                <div className={styles.cardTop}>
+                  <div className={styles.avatar}>{avatarInitials}</div>
+                  <span className={`badge ${statusClass}`}>{statusLabel}</span>
+                </div>
+                
+                <h3 className={styles.name}>{c.prenom} {c.nom}</h3>
+                <p className={styles.role}>{c.specialite}</p>
+                
+                <div className={styles.contacts}>
+                  {c.email && (
+                    <a href={`mailto:${c.email}`} className={styles.contact}>
+                      <Mail size={13} /> {c.email}
+                    </a>
+                  )}
+                  {c.telephone && (
+                    <a href={`tel:${c.telephone}`} className={styles.contact}>
+                      <Phone size={13} /> {c.telephone}
+                    </a>
+                  )}
+                </div>
+
+                <div className={styles.actions}>
+                  <Link to={`/consultants/${c.id}`} className="btn btn-secondary" style={{ flex: 1, padding: "0.4rem" }}>
+                    <Eye size={14} /> Voir
+                  </Link>
+                  <Link to={`/consultants/${c.id}/edit`} className="btn btn-outline" style={{ flex: 1, padding: "0.4rem" }}>
+                    <Edit2 size={14} />
+                  </Link>
+                  <button onClick={() => handleDelete(c.id)} className="btn btn-danger" style={{ padding: "0.4rem 0.8rem" }}>
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

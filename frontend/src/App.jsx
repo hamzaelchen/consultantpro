@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
-import ConsultantList from "./pages/ConsultantList";
+import Consultants from "./pages/Consultants";
 import ConsultantForm from "./pages/ConsultantForm";
 import ConsultantProfile from "./pages/ConsultantProfile";
 
@@ -12,7 +12,7 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/consultants" element={<ConsultantList />} />
+          <Route path="/consultants" element={<Consultants />} />
           <Route path="/consultants/:id" element={<ConsultantProfile />} />
           <Route path="/add" element={<ConsultantForm />} />
           <Route path="/consultants/:id/edit" element={<ConsultantForm />} />

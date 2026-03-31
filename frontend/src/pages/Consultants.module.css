@@ -6,8 +6,8 @@
   justify-content: space-between;
 }
 
-.title { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
-.sub   { color: var(--color-muted); font-size: 0.875rem; }
+.title { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text-dark); }
+.sub   { color: var(--text-light); font-size: 0.875rem; }
 
 .searchWrap {
   position: relative;
@@ -19,80 +19,97 @@
 .searchIcon {
   position: absolute;
   left: 0.85rem;
-  color: var(--color-muted);
+  color: var(--text-light);
   pointer-events: none;
 }
 
 .searchInput {
   width: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   padding: 0.65rem 1rem 0.65rem 2.5rem;
-  color: var(--color-text);
+  color: var(--text-dark);
   font-size: 0.875rem;
   outline: none;
-  transition: border-color var(--transition);
+  transition: all 0.3s ease;
 }
 
-.searchInput:focus { border-color: var(--color-primary); }
+.searchInput:focus { 
+  border-color: var(--primary-color); 
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transition: transform var(--transition), box-shadow var(--transition);
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(99, 102, 241, 0.4);
+  border-color: var(--primary-color);
 }
 
 .cardTop {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .avatar {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   border-radius: 50%;
   display: grid;
   place-items: center;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #fff;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
 }
 
-.name { font-weight: 600; font-size: 1rem; }
-.role { color: var(--color-muted); font-size: 0.825rem; margin-bottom: 0.5rem; }
+.name { font-weight: 600; font-size: 1.1rem; color: var(--text-dark); }
+.role { color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.5rem; }
 
 .contacts {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   margin-top: 0.5rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .contact {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.78rem;
-  color: var(--color-muted);
-  transition: color var(--transition);
+  font-size: 0.82rem;
+  color: var(--text-light);
+  transition: color 0.3s;
 }
 
-.contact:hover { color: var(--color-primary); }
+.contact:hover { color: #fff; }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

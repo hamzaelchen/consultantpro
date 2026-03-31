@@ -1,25 +1,77 @@
 .landingContainer {
-  /* Override main padding with negative margin to ensure full width/height for background */
-  margin: -2rem -2rem; /* nullifies .main-content padding */
+  /* Break out of parent max-width container to force full viewport width */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   padding: 0;
-  width: calc(100% + 4rem);
-  background: radial-gradient(circle at 50% -20%, #150f2a, #0b0f1a 40%, #030408 100%);
+  background: transparent; /* Changed to transparent so global-bg shows, or we can keep it dark */
   color: #ededef;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
-  position: relative;
+  min-height: calc(100vh - 70px); /* 100vh minus navbar approximately */
 }
 
-/* Subtle animated particles via pseudo elements */
-.landingContainer::before {
-  content: "";
+/* Background Elements */
+.animatedBg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  background: #020617; /* Put base dark color here instead */
+}
+
+.orb1, .orb2, .orb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.6;
+  animation: floatOrbs infinite ease-in-out alternate;
+}
+
+.orb1 {
+  top: -10%; left: -10%;
+  width: 50vw; height: 50vw;
+  background: rgba(79, 70, 229, 0.35); /* Indigo */
+  animation-duration: 20s;
+}
+
+.orb2 {
+  bottom: -20%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: rgba(168, 85, 247, 0.35); /* Purple */
+  animation-duration: 24s;
+  animation-direction: alternate-reverse;
+}
+
+.orb3 {
+  top: 40%; left: 30%;
+  width: 40vw; height: 40vw;
+  background: rgba(59, 130, 246, 0.25); /* Blue */
+  animation-duration: 28s;
+  animation-delay: -10s;
+}
+
+@keyframes floatOrbs {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5vw, 15vh) scale(1.1); }
+  66% { transform: translate(-10vw, 5vh) scale(0.9); }
+  100% { transform: translate(-5vw, -10vh) scale(1.05); }
+}
+
+.gridOverlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0, transparent 400px),
-    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0, transparent 400px);
-  pointer-events: none;
-  z-index: 0;
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  z-index: 1;
 }
 
 .hero {
