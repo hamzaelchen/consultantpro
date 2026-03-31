@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { login } from '@/api/auth'
-import useAuthStore from '@/store/authStore'
+import { useNavigate, Link } from 'react-router-dom'
+import { login as loginApi } from '@/api/auth'
+import { useAuth } from '@/context/AuthContext'
 import styles from './Login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
-  const setToken = useAuthStore((s) => s.setToken)
-  const setUser  = useAuthStore((s) => s.setUser)
+  const { login } = useAuth()
   const [form, setForm]   = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -17,15 +16,11 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      const { data } = await login({
-        username: form.email,
-        password: form.password,
-      })
-      setToken(data.access_token)
-      setUser(data.user)
-      navigate('/dashboard')
-    } catch {
-      setError('Identifiants incorrects. Veuillez réessayer.')
+      const { data } = await loginApi(form)
+      login(data.user, data.access_token)
+      navigate('/consultants')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Identifiants incorrects. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -68,12 +63,17 @@ export default function Login() {
           <button
             id="login-submit"
             type="submit"
-            className={`btn btn-primary ${styles.submit}`}
+            className={styles.submit}
             disabled={loading}
           >
             {loading ? 'Connexion…' : 'Se connecter'}
           </button>
         </form>
+
+        <div className={styles.footer}>
+          Pas de compte ? 
+          <Link to="/register" className={styles.link}>S'inscrire</Link>
+        </div>
       </div>
     </div>
   )

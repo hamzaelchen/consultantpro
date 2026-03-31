@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 import crud
 from database import get_db
 from schemas import ConsultantCreate, ConsultantOut, ConsultantUpdate
+from routers.auth import get_current_user
 
 router = APIRouter(prefix="/consultants", tags=["Consultants"])
 
@@ -14,7 +15,11 @@ router = APIRouter(prefix="/consultants", tags=["Consultants"])
     status_code=status.HTTP_201_CREATED,
     summary="Créer un consultant",
 )
-def create_consultant(payload: ConsultantCreate, db: Session = Depends(get_db)):
+def create_consultant(
+    payload: ConsultantCreate,
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
+):
     return crud.create(db, payload)
 
 
@@ -24,7 +29,10 @@ def create_consultant(payload: ConsultantCreate, db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     summary="Lister tous les consultants",
 )
-def list_consultants(db: Session = Depends(get_db)):
+def list_consultants(
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
+):
     return crud.get_all(db)
 
 
@@ -34,7 +42,11 @@ def list_consultants(db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     summary="Profil d'un consultant",
 )
-def get_consultant(consultant_id: str, db: Session = Depends(get_db)):
+def get_consultant(
+    consultant_id: str,
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
+):
     return crud.get_by_id(db, consultant_id)
 
 
@@ -48,6 +60,7 @@ def update_consultant(
     consultant_id: str,
     payload: ConsultantUpdate,
     db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
 ):
     return crud.update(db, consultant_id, payload)
 
@@ -57,5 +70,9 @@ def update_consultant(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Supprimer un consultant",
 )
-def delete_consultant(consultant_id: str, db: Session = Depends(get_db)):
+def delete_consultant(
+    consultant_id: str,
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
+):
     crud.delete(db, consultant_id)
