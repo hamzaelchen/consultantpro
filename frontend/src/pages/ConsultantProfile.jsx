@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Mail, Phone, Briefcase, Calendar, ChevronLeft, Edit2, Trash2 } from "lucide-react";
-import api from "../api/api";
+import api from "../api/client";
 
 export default function ConsultantProfile() {
   const { id } = useParams();

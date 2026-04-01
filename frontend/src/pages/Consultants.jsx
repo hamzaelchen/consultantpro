@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Plus, Search, Mail, Phone, Eye, Edit2, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import api from '../api/api'
+import api from '../api/client'
 import styles from './Consultants.module.css'
 
 export default function Consultants() {
@@ -28,13 +28,15 @@ export default function Consultants() {
   }
 
   const handleDelete = async (id) => {
+    console.log("Attempting to delete consultant with ID:", id)
     if (!window.confirm("Voulez-vous vraiment supprimer ce consultant ?")) return
     try {
-      await api.delete(`/consultants/${id}`)
-      setConsultants(consultants.filter(c => c.id !== id))
+      const response = await api.delete(`/consultants/${id}`)
+      console.log("Delete response:", response.status)
+      setConsultants(prev => prev.filter(c => c.id !== id))
     } catch (err) {
       alert("Erreur lors de la suppression")
-      console.error(err)
+      console.error("Delete error:", err)
     }
   }
 
@@ -118,8 +120,13 @@ export default function Consultants() {
                   <Link to={`/consultants/${c.id}/edit`} className="btn btn-outline" style={{ flex: 1, padding: "0.4rem" }}>
                     <Edit2 size={14} />
                   </Link>
-                  <button onClick={() => handleDelete(c.id)} className="btn btn-danger" style={{ padding: "0.4rem 0.8rem" }}>
-                    <Trash2 size={14} />
+                  <button 
+                    onClick={() => handleDelete(c.id)} 
+                    className="btn btn-danger" 
+                    title="Supprimer"
+                    style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", justifyContent: "center" }}
+                  >
+                    <Trash2 size={14} style={{ pointerEvents: "none" }} />
                   </button>
                 </div>
               </div>

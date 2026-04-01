@@ -42,12 +42,17 @@ backend/logs/
 # ──── Docker ────
 *.env.docker
 
-# ──── OS ────
+# ──── Database / Local ────
+*.db
+*.sqlite3
+backend/sql_app.db
+backend/.env
+frontend/.env
+.env
+
+# ──── OS / IDE ────
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# ──── IDE / Editor ────
 .vscode/
 .idea/
 *.swp

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../api/api";
+import api from "../api/client";
 
 export default function ConsultantList() {
   const [consultants, setConsultants] = useState([]);
@@ -24,15 +24,16 @@ export default function ConsultantList() {
   };
 
   const handleDelete = async (id) => {
+    console.log("Attempting to delete consultant with ID:", id)
     if (!window.confirm("Voulez-vous vraiment supprimer ce consultant ?")) return;
     
     try {
-      await api.delete(`/consultants/${id}`);
-      setConsultants(consultants.filter(c => c.id !== id));
-      // Optionnel: rester sur la même page (contrainte vérifiée)
+      const response = await api.delete(`/consultants/${id}`);
+      console.log("Delete response:", response.status)
+      setConsultants(prev => prev.filter(c => c.id !== id));
     } catch (err) {
       alert("Erreur lors de la suppression");
-      console.error(err);
+      console.error("Delete error:", err);
     }
   };
 
@@ -75,7 +76,13 @@ export default function ConsultantList() {
                     <div className="actions">
                       <Link to={`/consultants/${c.id}`} className="btn btn-secondary" style={{ padding: '0.25rem 0.5rem', fontSize: '0.85rem' }}>Voir</Link>
                       <Link to={`/consultants/${c.id}/edit`} className="btn btn-outline" style={{ padding: '0.25rem 0.5rem', fontSize: '0.85rem' }}>Modifier</Link>
-                      <button onClick={() => handleDelete(c.id)} className="btn btn-danger" style={{ padding: '0.25rem 0.5rem', fontSize: '0.85rem' }}>Supprimer</button>
+                      <button 
+                        onClick={() => handleDelete(c.id)} 
+                        className="btn btn-danger" 
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.85rem' }}
+                      >
+                        Supprimer
+                      </button>
                     </div>
                   </td>
                 </tr>

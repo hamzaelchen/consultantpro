@@ -55,7 +55,6 @@ export default function Register() {
               <input
                 type="text"
                 className={styles.input}
-                placeholder="Doe"
                 value={form.nom}
                 onChange={(e) => setForm({ ...form, nom: e.target.value })}
                 required
@@ -66,7 +65,6 @@ export default function Register() {
               <input
                 type="text"
                 className={styles.input}
-                placeholder="John"
                 value={form.prenom}
                 onChange={(e) => setForm({ ...form, prenom: e.target.value })}
                 required
@@ -79,7 +77,6 @@ export default function Register() {
             <input
               type="email"
               className={styles.input}
-              placeholder="john@exemple.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -91,7 +88,6 @@ export default function Register() {
             <input
               type="password"
               className={styles.input}
-              placeholder="••••••••"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
@@ -103,7 +99,6 @@ export default function Register() {
             <input
               type="password"
               className={styles.input}
-              placeholder="••••••••"
               value={form.confirmPassword}
               onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
               required

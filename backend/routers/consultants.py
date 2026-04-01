@@ -20,7 +20,7 @@ def create_consultant(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
-    return crud.create(db, payload)
+    return crud.create(db, payload, current_user.id)
 
 
 @router.get(
@@ -33,7 +33,7 @@ def list_consultants(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
-    return crud.get_all(db)
+    return crud.get_all(db, current_user.id)
 
 
 @router.get(
@@ -47,7 +47,7 @@ def get_consultant(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
-    return crud.get_by_id(db, consultant_id)
+    return crud.get_by_id(db, consultant_id, current_user.id)
 
 
 @router.put(
@@ -62,7 +62,7 @@ def update_consultant(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
-    return crud.update(db, consultant_id, payload)
+    return crud.update(db, consultant_id, payload, current_user.id)
 
 
 @router.delete(
@@ -75,4 +75,4 @@ def delete_consultant(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
-    crud.delete(db, consultant_id)
+    crud.delete(db, consultant_id, current_user.id)

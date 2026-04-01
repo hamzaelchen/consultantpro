@@ -42,7 +42,6 @@ export default function Login() {
               id="login-email"
               type="email"
               className={styles.input}
-              placeholder="vous@exemple.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -54,7 +53,6 @@ export default function Login() {
               id="login-password"
               type="password"
               className={styles.input}
-              placeholder="••••••••"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
