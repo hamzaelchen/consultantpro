@@ -15,18 +15,11 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# CORS configuration
-origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:5173",
-    "https://consultantpro-frontend.onrender.com",
-]
-
+# CORS configuration — wildcard pour le debug Render
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

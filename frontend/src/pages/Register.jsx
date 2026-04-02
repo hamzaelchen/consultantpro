@@ -32,8 +32,9 @@ export default function Register() {
         password: form.password
       })
       navigate('/login', { state: { message: 'Compte créé avec succès ! Connectez-vous.' } })
-    } catch (err) {
-      setError(err.response?.data?.detail || "Une erreur est survenue lors de l'inscription.")
+    } catch (error) {
+      const msg = error.response?.data?.detail || error.message || 'Erreur inconnue'
+      setError(msg)
     } finally {
       setLoading(false)
     }
