@@ -18,7 +18,9 @@ app = FastAPI(
 # CORS configuration
 origins = [
     "http://localhost:5173",
+    "http://localhost:3000",
     "http://127.0.0.1:5173",
+    "https://consultantpro-frontend.onrender.com",
 ]
 
 app.add_middleware(
